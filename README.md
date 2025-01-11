@@ -21,9 +21,12 @@ Modular Structure: Organized into MVC-like components for easier maintenance and
 ```
 web-scraper/
 │
-├── scraper/                # Core scraper logic
+├── app/                # Core scraper logic
 │   ├── __init__.py        
-│   ├── crawler.py          # Main entry point for crawling 
+│   ├── app.py        
+│   ├── controller.py       
+│   ├── models.py           
+│   ├── scraper.py           
 │   ├── fetcher.py          # Responsible for fetching pages 
 │   ├── parser.py           # Responsible for parsing and extracting URLs
 │   ├── logger.py           # Logging setup
@@ -40,16 +43,16 @@ web-scraper/
 
 ## Folder Descriptions
 
-scraper/: Contains the core scraping logic following the MVC architecture.
-crawler.py: The controller that manages the overall crawling process, handles URL lists, and calls fetch and parse methods.
-fetcher.py: Fetches the HTML content of pages asynchronously.
-parser.py: Parses the HTML content and extracts necessary data such as product URLs or product details.
-logger.py: Configures logging to handle errors, warnings, and info messages.
-utils.py: Contains helper functions for retries, rate limiting, error handling, etc.
-data/: Stores the output data (in JSON format).
+* app/: Contains the core scraping logic following the MVC architecture.
+* crawler.py: The controller that manages the overall crawling process, handles URL lists, and calls fetch and parse methods.
+* fetcher.py: Fetches the HTML content of pages asynchronously.
+* parser.py: Parses the HTML content and extracts necessary data such as product URLs or product details.
+* logger.py: Configures logging to handle errors, warnings, and info messages.
+* utils.py: Contains helper functions for retries, rate limiting, error handling, etc.
+* data/: Stores the output data (in JSON format).
 
-product_urls.json: The JSON file where scraped product URLs are saved.
-tests/: Contains unit tests to ensure the functionality of individual components.
+* product_urls.json: The JSON file where scraped product URLs are saved.
+* tests/: Contains unit tests to ensure the functionality of individual components.
 
 requirements.txt: Lists the dependencies required for the project.
 
@@ -66,13 +69,15 @@ INFO:root:Page loaded successfully: https://myntra.com
 INFO:root:Page loaded successfully: https://amazon.com
 INFO:root:Scraping finished: [{'domain': 'https://myntra.com', 'error': 'Failed to fetch page'}, {'domain': 'https://amazon.com', 'content': {'title': 'Sample Product', 'price': '$19.99'}}]
 ```
+
 ## Future Scope
-Deep Scraping: Expand the scraper to follow internal links and collect additional product details.
-Anti-Bot Handling: Integrate techniques to bypass common anti-bot mechanisms like CAPTCHAs.
-Data Persistence: Integrate a database (e.g., MongoDB, SQLite) to store scraped data persistently.
-Advanced Rate Limiting: Implement dynamic rate-limiting based on server response headers (e.g., X-RateLimit-Remaining).
-Headless Browser Scraping: Introduce support for headless browsers (e.g., Playwright, Selenium) to handle JavaScript-heavy pages.
-Distributed Scraping: Scale the scraping process across multiple machines or processes for large datasets.
+* Deep Scraping: Expand the scraper to follow internal links and collect additional product details, have more than 1 layer of extraction
+* Anti-Bot Handling: Integrate techniques to bypass common anti-bot mechanisms like CAPTCHAs.
+* API routing: Dynamic api routing to prevent ip tracking
+* Honouring robots.txt
+* Data Persistence: Integrate a database (e.g., MongoDB, SQLite) to store scraped data persistently.
+* Advanced Rate Limiting: Implement dynamic rate-limiting based on server response headers
+* Distributed Scraping: Scale the scraping process across multiple machines or processes for large datasets.
 
 ## Installation
 Clone the repository:
@@ -93,6 +98,10 @@ To run the scraper, execute the following command:
 ````
 uvicorn app.app:app --reload --host 0.0.0.0 --port 4000
 ````
+or
+```
+docker-compose up --build
+```
 ## Curl to test
 ```
 curl --location 'http://127.0.0.1:4000/scrape' \
